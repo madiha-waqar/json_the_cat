@@ -9,31 +9,27 @@ if (breedName === undefined || breedName === "") {
   return;
 }
 
-const fetchBreedDescription = function(breedName) {
-  request(
-    `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`,
-    (error, response, body) => {
-      //  Edge Case: Request Failed i-e url not correct
-      if (error !== null) {
-        console.log(
-          `Error ${error.code} occured during accessing host ${error.hostname}.`
-        );
-        return;
-      }
-      let data = JSON.parse(body); // Deserialization: Converting body which is the entire response body sent back from the API server into object
-      //console.log(data);
-      //console.log(typeof data);
-      if (data.length === 0) {
-        console.log(`No data is available for asked breed ${breedName}.`);
-        return;
-      }
-      console.log(`# of records found for ${breedName}: ${data.length}`);
-      data.forEach((element) => {
-        console.log(`************  ${element.name}   ************`);
-        console.log(element.description);
-      });
+request(
+  `https://api.thecatapi.com/v1/breeds/search?q=${breedName}`,
+  (error, response, body) => {
+    //  Edge Case: Request Failed i-e url not correct
+    if (error !== null) {
+      console.log(
+        `Error ${error.code} occured during accessing host ${error.hostname}.`
+      );
+      return;
     }
-  );
-};
-
-fetchBreedDescription(breedName);
+    let data = JSON.parse(body); // Deserialization: Converting body which is the entire response body sent back from the API server into object
+    //console.log(data);
+    //console.log(typeof data);
+    if (data.length === 0) {
+      console.log(`No data is available for asked breed ${breedName}.`);
+      return;
+    }
+    console.log(`# of records found for ${breedName}: ${data.length}`);
+    data.forEach((element) => {
+      console.log(`************  ${element.name}   ************`);
+      console.log(element.description);
+    });
+  }
+);
